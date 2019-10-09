@@ -1,0 +1,239 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class ROOM{
+private:
+	char name[20];    //学生姓名
+	int clas;         //学生班级
+	double num;          //学生学号
+	char s;           //学生入住情况
+public:
+	ROOM(){}; 
+	void Set();                                     //初始化学生信息
+	friend void Input(int n,ROOM r[]);              //添加学生记录
+	friend void Search1(int n,ROOM r[]);            //按床号查询
+	friend void Search2(char n[],ROOM r[]);         //按姓名查询
+	friend void Search3(double n,ROOM r[]);            //按学号查询
+	void Delete();
+	void Situation(); //查询学生入住情况（在住为"Y"，搬出为"N"）
+	~ROOM(){};
+};
+void meua()
+{
+	system("cls");
+cout<<endl<<endl<<endl<<endl;
+cout<<"                            宿 舍 管 理 系 统 软 件"<<endl<<endl<<endl;
+cout<<"                        1. 初 始 化 学 生 住 宿 记 录 信 息"<<endl<<endl;
+cout<<"                        2. 添 加 学 生 住 宿 记 录"<<endl<<endl;
+cout<<"                        3. 查 询 学 生 住 宿 信 息"<<endl<<endl;
+cout<<"                        4. 删 除 学 生 住 宿 记 录"<<endl<<endl;
+cout<<"                        5. 查 看 学 生 入 住 情 况"<<endl<<endl;
+cout<<"                        0. 退 出 系 统"<<endl<<endl<<endl;
+cout<<"                                  请选择0~5"<<endl<<endl;
+}
+void ROOM::Set()                                  //初始化信息
+{
+char a[20];int b;double c;char d;
+cin>>a;
+cin>>b;
+cin>>c;
+cin>>d;
+strcpy(name,a);
+clas=b;
+num=c;
+s=d;
+}
+void Input(int n,ROOM r[])                         //添加记录   
+{
+	char a[10];int b;double c;char d,t;
+	if(r[n-1].num==0)
+	{
+		cout<<"请输入：姓名 班级 学号 入住信息<Y或N>"<<endl;
+		cin>>a;
+		cin>>b;
+		cin>>c;
+		cin>>d;
+		strcpy(r[n-1].name,a);
+		r[n-1].clas=b;
+		r[n-1].num=c;
+		r[n-1].s=d;
+		cout<<"添加完成!按任意键按回车返回"<<endl;
+		cin>>t;
+	}
+	else
+	{
+		cout<<endl;
+		cout<<"该床位信息已存在!按任意键按回车返回"<<endl;
+	    cin>>t;
+	}
+}
+void Search1(int n,ROOM r[])              //按床号查询 
+{	
+	char t;
+	if(r[n-1].num==0)
+	{
+		cout<<endl;
+		cout<<"该床位信息不存在!"<<endl<<endl;
+		cout<<"按任意键按回车返回"<<endl;
+		cin>>t;
+	}
+	else
+	{
+
+cout<<"姓名："<<r[n-1].name<<endl;
+cout<<"班级："<<r[n-1].clas<<endl;
+cout<<"学号："<<r[n-1].num<<endl;
+cout<<"按任意键按回车继续"<<endl;
+cin>>t;
+	}
+}
+void Search2(char n[],ROOM r[])             //按姓名查询 
+{
+	int i=0;char t;
+	while(i>=0)
+	{
+		if(i==7) {cout<<endl;cout<<"不存在!"<<endl;break;}
+		else
+		{
+			if(strcmp(n,r[i].name)==0)
+			{
+			cout<<"姓名："<<r[i].name<<endl;
+			cout<<"班级："<<r[i].clas<<endl;
+			cout<<"学号："<<r[i].num<<endl;
+			break;
+			}
+			else i++;
+		}
+	
+	}
+cout<<"按任意键按回车继续"<<endl;
+cin>>t;
+}
+void Search3(double n,ROOM r[])               //按学号查询
+{
+int i;
+char t;
+for(i=0;i<6;i++)
+	{
+		if(n==r[i].num)
+		{
+		cout<<"姓名："<<r[i].name<<endl;
+		cout<<"班级："<<r[i].clas<<endl;
+		cout<<"学号："<<r[i].num<<endl;
+		break;
+		}
+	}
+if((n!=r[0].num)&&n!=r[1].num&&n!=r[2].num&&n!=r[3].num&&n!=r[4].num&&n!=r[5].num)
+{cout<<endl;
+cout<<"不存在!"<<endl;}
+cout<<"按任意键按回车返回"<<endl;
+cin>>t;
+} 
+void ROOM::Delete()							//删除信息
+{
+char t;
+strcpy(name,"已删除");
+clas=0;
+num=0;
+s='X';
+cout<<endl;
+cout<<"已删除"<<endl;
+cout<<"按任意键按回车继续"<<endl;
+cin>>t;
+}
+void ROOM::Situation()						//入住情况
+{char t;
+	if(num==0)
+	{
+		cout<<endl;
+		cout<<"该床位信息不存在!按任意键按回车返回"<<endl<<endl;
+		cin>>t;
+	}
+	else
+	{
+if(s=='Y')
+cout<<"该学生在住!"<<endl<<endl;
+else
+{if(s=='N')
+cout<<"该学生已搬出!"<<endl<<endl;}
+cout<<"按任意键按回车返回"<<endl;
+cin>>t;
+	}
+}
+int main()
+{
+	int a=1,i,j,q;	
+	ROOM r[6];
+	char t;
+	while(a!=0)
+{
+	meua();
+	cin>>a;
+	if(a==1)
+	{cout<<endl;
+	cout<<"若某编号位"<<endl<<endl;
+	for(i=0;i<6;i++)
+	{cout<<"请输入第"<<i+1<<"号床学生信息（姓名 班级 学号 入住信息<Y或N>）:"<<endl;  //按床号顺序添加学生住宿记录信息
+	r[i].Set();}
+	cout<<"初始化完成，按任意键按回车继续!"<<endl;
+	cin>>t;}
+	if(a==2)                                     //输入床号添加学生住宿记录信息
+	{
+		cout<<"请输入要添加的床号信息"<<endl;
+		cin>>q;
+		Input(q,r);
+	}
+	if(a==3)
+	{
+		int s;
+	cout<<"         请选择查询方式"<<endl<<endl;
+	cout<<"         1.输入床号查询"<<endl;         //按床号查询
+	cout<<"         2.输入姓名查询"<<endl;         //按姓名查询
+	cout<<"         3.输入学号查询"<<endl<<endl;   //按学号查询
+	cin>>s;
+	if(s>0&&s<4)
+	{	if(s==1)
+		{
+			cout<<"请输入需查询的床号："<<endl;
+			cin>>q;
+			Search1(q,r);
+		}
+		if(s==2)
+		{
+			cout<<"请输入需查询的姓名："<<endl;
+			char na[20];
+			cin>>na;
+			Search2(na,r);
+		}
+		if(s==3)
+		{
+			cout<<"请输入需查询的学号："<<endl;
+			double nu;
+			cin>>nu;
+			Search3(nu,r);
+		}
+	}
+	else
+	{cout<<"输入有误!按任意键返回!"<<endl;
+	cin>>t;}
+	}
+	if(a==4)
+	{cout<<"请输入要删除信息的学生床号:"<<endl;     //按床号删除该床位信息
+	cin>>j;
+	if(j>0&&j<7)
+		r[j-1].Delete();
+	else
+		{
+			cout<<"输入有误!按任意键返回！"<<endl;
+			cin>>t;
+		}
+	}
+	if(a==5)
+	{cout<<"请输入要查询的学生床号:"<<endl;
+		cin>>j;
+	r[j-1].Situation();}    //按床号查询该学生入住情况
+	if(a==0)
+		cout<<"Exit!"<<endl;
+}
+	return 0;
+}
